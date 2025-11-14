@@ -3,6 +3,8 @@
 import React, { useEffect } from 'react';
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { useApp } from '@/src/context/AppContext';
+import { useAuth, getStoredUser } from '@/src/hooks/useAuth';
+import ProtectedRoute from './components/ProtectedRoute';
 import TaskDump from './components/TaskDump';
 import ScheduleView from './components/ScheduleView';
 import PriorityMatrix from './components/PriorityMatrix';
@@ -11,21 +13,14 @@ import Dashboard from './components/Dashboard';
 
 export default function Home() {
   const { assignTaskToBlock, setUser } = useApp();
+  const { user: authUser, logout } = useAuth();
 
-  // Demo user setup
+  // Load authenticated user
   useEffect(() => {
-    setUser({
-      userId: 'demo-user-001',
-      email: 'demo@planpa.app',
-      name: 'Demo User',
-      preferences: {
-        defaultWorkDuration: 40,
-        defaultBreakDuration: 5,
-        timezone: 'UTC',
-        notifications: true,
-      },
-      createdAt: new Date(),
-    });
+    const storedUser = getStoredUser();
+    if (storedUser) {
+      setUser(storedUser);
+    }
   }, [setUser]);
 
   const sensors = useSensors(
@@ -49,12 +44,29 @@ export default function Home() {
   };
 
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-6">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">PlanPA</h1>
-          <p className="text-gray-600">Productivity Planning App - Balance work and rest with 40-minute blocks</p>
-        </header>
+    <ProtectedRoute>
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 p-6">
+          <header className="mb-8 flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">PlanPA</h1>
+              <p className="text-gray-600">Productivity Planning App - Balance work and rest with 40-minute blocks</p>
+            </div>
+            <div className="flex items-center gap-4">
+              {authUser && (
+                <div className="text-right">
+                  <p className="text-sm text-gray-600">Welcome back,</p>
+                  <p className="font-semibold text-gray-800">{authUser.name}</p>
+                </div>
+              )}
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+              >
+                Logout
+              </button>
+            </div>
+          </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column: Task Dump & Priority Matrix */}
@@ -80,5 +92,6 @@ export default function Home() {
         </footer>
       </div>
     </DndContext>
+    </ProtectedRoute>
   );
 }
