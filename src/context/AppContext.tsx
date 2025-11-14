@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { Task, TimeBlock, Schedule, User, AppState, Priority, TaskStatus } from '@/src/types';
 import { generateId, addMinutes } from '@/src/utils/helpers';
 
@@ -26,6 +26,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const [activeTimer, setActiveTimer] = useState<AppState['activeTimer']>(null);
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (error) {
+          console.error('Failed to parse stored user:', error);
+        }
+      }
+    }
+  }, []);
 
   const addTask = useCallback((taskData: Omit<Task, 'taskId' | 'userId' | 'createdAt' | 'completedAt' | 'assignedBlockId'>) => {
     const newTask: Task = {
