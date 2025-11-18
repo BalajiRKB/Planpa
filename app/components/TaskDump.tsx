@@ -85,8 +85,8 @@ export default function TaskDump() {
               <p className="text-gray-600 text-xs mt-1">press Alt+N to add task</p>
             </div>
           ) : (
-            unassignedTasks.map((task) => (
-              <TaskCard key={task.taskId} task={task} onDelete={deleteTask} onUpdate={updateTask} />
+            unassignedTasks.map((task, index) => (
+              <TaskCard key={task.taskId} task={task} onDelete={deleteTask} onUpdate={updateTask} index={index} />
             ))
           )}
         </div>
@@ -178,7 +178,7 @@ export default function TaskDump() {
   );
 }
 
-function TaskCard({ task, onDelete, onUpdate }: any) {
+function TaskCard({ task, onDelete, onUpdate, index }: any) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.taskId,
     data: { type: 'task', task },
@@ -190,13 +190,16 @@ function TaskCard({ task, onDelete, onUpdate }: any) {
     opacity: isDragging ? 0.5 : 1,
   };
 
+  // Alternate colors: #85ABB0 and #B1B1B1
+  const bgColor = index % 2 === 0 ? 'bg-[#85ABB0]' : 'bg-[#B1B1B1]';
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className="p-3 bg-[#e8c7c7] border-2 border-black rounded-xl hover:shadow-lg transition cursor-grab active:cursor-grabbing"
+      className={`p-3 ${bgColor} border-2 border-black rounded-xl hover:shadow-lg transition cursor-grab active:cursor-grabbing`}
     >
       <div className="flex justify-between items-start">
         <div className="flex-1">

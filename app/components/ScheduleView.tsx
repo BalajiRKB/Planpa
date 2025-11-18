@@ -31,8 +31,8 @@ export default function ScheduleView() {
   return (
     <div className="bg-[#CDB4B4] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
       <div className="space-y-2 flex-1 overflow-y-auto pr-1 mb-3">
-        {timeBlocks.map((block) => (
-          <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
+        {timeBlocks.map((block, index) => (
+          <TimeBlockCard key={block.blockId} block={block} tasks={tasks} index={index} />
         ))}
       </div>
       <h2 className="text-lg font-bold text-gray-800 text-center pt-2 border-t-2 border-black shrink-0">
@@ -42,7 +42,7 @@ export default function ScheduleView() {
   );
 }
 
-function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
+function TimeBlockCard({ block, tasks, index }: { block: TimeBlock; tasks: any[]; index: number }) {
   const { assignTaskToBlock } = useApp();
   const { setNodeRef, isOver } = useDroppable({
     id: block.blockId,
@@ -51,9 +51,8 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
 
   const assignedTasks = tasks.filter((task) => block.assignedTasks.includes(task.taskId));
 
-  const blockColor = block.blockType === 'Work' 
-    ? 'bg-[#6eb5b5] border-black' 
-    : 'bg-[#d4a5a5] border-black';
+  // Alternate colors: #85ABB0 and #B1B1B1
+  const blockColor = index % 2 === 0 ? 'bg-[#85ABB0]' : 'bg-[#B1B1B1]';
   const hoverColor = isOver ? 'ring-2 ring-blue-500' : '';
 
   return (
