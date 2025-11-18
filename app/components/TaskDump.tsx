@@ -38,8 +38,15 @@ export default function TaskDump() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [showModal]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    
+    // Check if title is filled
+    if (!formData.title.trim()) {
+      alert('Please fill in the task title');
+      return;
+    }
+    
     addTask({ ...formData, priority: selectedPriority });
     setFormData({
       title: '',
@@ -51,6 +58,14 @@ export default function TaskDump() {
     });
     setSelectedPriority('P3');
     setShowModal(false);
+  };
+
+  const handlePriorityClick = (priority: Priority) => {
+    setSelectedPriority(priority);
+    // Auto-submit if title is filled
+    if (formData.title.trim()) {
+      handleSubmit();
+    }
   };
 
   const unassignedTasks = tasks.filter(task => !task.assignedBlockId);
@@ -88,7 +103,7 @@ export default function TaskDump() {
             <div className="absolute -right-24 top-1/2 -translate-y-1/2 flex flex-col gap-3">
               <button
                 type="button"
-                onClick={() => setSelectedPriority('P1')}
+                onClick={() => handlePriorityClick('P1')}
                 className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
                   selectedPriority === 'P1' ? 'bg-red-600 ring-4 ring-red-300' : 'bg-red-600 hover:bg-red-700'
                 }`}
@@ -99,7 +114,7 @@ export default function TaskDump() {
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedPriority('P2')}
+                onClick={() => handlePriorityClick('P2')}
                 className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
                   selectedPriority === 'P2' ? 'bg-green-600 ring-4 ring-green-300' : 'bg-green-600 hover:bg-green-700'
                 }`}
@@ -110,7 +125,7 @@ export default function TaskDump() {
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedPriority('P3')}
+                onClick={() => handlePriorityClick('P3')}
                 className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
                   selectedPriority === 'P3' ? 'bg-yellow-400 ring-4 ring-yellow-200' : 'bg-yellow-400 hover:bg-yellow-500'
                 }`}
@@ -121,7 +136,7 @@ export default function TaskDump() {
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedPriority('P4')}
+                onClick={() => handlePriorityClick('P4')}
                 className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
                   selectedPriority === 'P4' ? 'bg-blue-600 ring-4 ring-blue-300' : 'bg-blue-600 hover:bg-blue-700'
                 }`}
