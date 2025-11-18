@@ -72,7 +72,7 @@ export default function TaskDump() {
 
   return (
     <>
-      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
+      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-4 border-black h-full flex flex-col">
         <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto">
           {unassignedTasks.length === 0 ? (
             <div className="text-center py-12">
@@ -90,7 +90,7 @@ export default function TaskDump() {
             ))
           )}
         </div>
-        <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-gray-600 shrink-0">
+        <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-black shrink-0">
           Task Dump
         </h2>
       </div>
@@ -148,7 +148,7 @@ export default function TaskDump() {
             </div>
 
             {/* Main Modal */}
-            <div className="bg-[#d4a5a5] rounded-3xl shadow-2xl w-[500px] border-4 border-gray-700">
+            <div className="bg-[#d4a5a5] rounded-3xl shadow-2xl w-[500px] border-4 border-black">
               <form onSubmit={handleSubmit} className="p-8">
                 <h2 className="text-5xl font-bold text-center text-gray-900 mb-8">New Task</h2>
                 
@@ -157,7 +157,7 @@ export default function TaskDump() {
                   placeholder="Task"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full mb-4 p-4 border-3 border-gray-700 rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+                  className="w-full mb-4 p-4 border-3 border-black rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
                   required
                   autoFocus
                 />
@@ -166,7 +166,7 @@ export default function TaskDump() {
                   placeholder="Task Description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full p-4 border-3 border-gray-700 rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800 resize-none"
+                  className="w-full p-4 border-3 border-black rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800 resize-none"
                   rows={4}
                 />
               </form>
@@ -196,7 +196,7 @@ function TaskCard({ task, onDelete, onUpdate }: any) {
       style={style}
       {...attributes}
       {...listeners}
-      className="p-3 bg-[#e8c7c7] border-2 border-gray-700 rounded-xl hover:shadow-lg transition cursor-grab active:cursor-grabbing"
+      className="p-3 bg-[#e8c7c7] border-2 border-black rounded-xl hover:shadow-lg transition cursor-grab active:cursor-grabbing"
     >
       <div className="flex justify-between items-start">
         <div className="flex-1">

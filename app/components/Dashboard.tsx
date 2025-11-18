@@ -20,8 +20,8 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col overflow-hidden">
-      <h2 className="text-base font-bold text-gray-900 mb-2 text-center pb-2 border-b-2 border-gray-400 shrink-0">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-black h-full flex flex-col overflow-hidden">
+      <h2 className="text-base font-bold text-gray-900 mb-2 text-center pb-2 border-b-2 border-black shrink-0">
         Stats
       </h2>
       <div className="grid grid-cols-2 gap-2 mb-2 shrink-0">
@@ -32,7 +32,7 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
-      <div className="bg-[#e8c7c7] p-2 rounded-xl border-2 border-gray-600 shrink-0">
+      <div className="bg-[#e8c7c7] p-2 rounded-xl border-2 border-black shrink-0">
         <h3 className="font-semibold text-gray-900 mb-1 text-xs">Insights</h3>
         <ul className="space-y-0.5 text-xs text-gray-800">
           <li>📊 Planned: {totalPlannedDuration} min</li>

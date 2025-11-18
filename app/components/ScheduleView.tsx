@@ -15,7 +15,7 @@ export default function ScheduleView() {
 
   if (!schedule) {
     return (
-      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-4 border-gray-600">
+      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-4 border-black">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Schedule</h2>
         <p className="text-gray-600 mb-4">No schedule created yet for today.</p>
         <button
@@ -29,13 +29,13 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-black h-full flex flex-col">
       <div className="space-y-2 flex-1 overflow-y-auto pr-1 mb-3">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
         ))}
       </div>
-      <h2 className="text-lg font-bold text-gray-800 text-center pt-2 border-t-2 border-gray-400 shrink-0">
+      <h2 className="text-lg font-bold text-gray-800 text-center pt-2 border-t-2 border-black shrink-0">
         Schedule
       </h2>
     </div>
@@ -52,14 +52,14 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
   const assignedTasks = tasks.filter((task) => block.assignedTasks.includes(task.taskId));
 
   const blockColor = block.blockType === 'Work' 
-    ? 'bg-[#6eb5b5] border-gray-700' 
-    : 'bg-[#d4a5a5] border-gray-700';
+    ? 'bg-[#6eb5b5] border-black' 
+    : 'bg-[#d4a5a5] border-black';
   const hoverColor = isOver ? 'ring-2 ring-blue-500' : '';
 
   return (
     <div
       ref={setNodeRef}
-      className={`p-2 border-3 border-gray-700 rounded-xl ${blockColor} ${hoverColor} transition min-h-[50px] flex flex-col justify-center`}
+      className={`p-2 border-3 border-black rounded-xl ${blockColor} ${hoverColor} transition min-h-[50px] flex flex-col justify-center`}
     >
       <div className="flex justify-between items-center mb-0.5">
         <span className="font-semibold text-gray-900 text-xs">
