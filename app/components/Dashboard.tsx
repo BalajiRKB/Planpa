@@ -20,11 +20,11 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 text-center pb-2 border-b-2 border-gray-400">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 flex-1 min-h-0 flex flex-col">
+      <h2 className="text-lg font-bold text-gray-900 mb-3 text-center pb-2 border-b-2 border-gray-400 shrink-0">
         Stats
       </h2>
-      <div className="grid grid-cols-2 gap-3 mb-3">
+      <div className="grid grid-cols-2 gap-3 mb-3 shrink-0">
         {stats.map((stat, index) => (
           <div key={index} className={`${stat.color} text-white p-3 rounded-xl text-center shadow-md`}>
             <div className="text-3xl font-bold">{stat.value}</div>
@@ -32,7 +32,7 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
-      <div className="bg-[#e8c7c7] p-3 rounded-xl border-2 border-gray-600">
+      <div className="bg-[#e8c7c7] p-3 rounded-xl border-2 border-gray-600 shrink-0">
         <h3 className="font-semibold text-gray-900 mb-2 text-sm">Insights</h3>
         <ul className="space-y-1 text-xs text-gray-800">
           <li>📊 Planned: {totalPlannedDuration} min</li>

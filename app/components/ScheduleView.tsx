@@ -29,13 +29,13 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 h-fit flex flex-col">
-      <div className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 mb-4">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 h-full flex flex-col">
+      <div className="space-y-2 flex-1 overflow-y-auto pr-2 mb-4">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
         ))}
       </div>
-      <h2 className="text-xl font-bold text-gray-800 text-center pt-3 border-t-2 border-gray-400">
+      <h2 className="text-xl font-bold text-gray-800 text-center pt-3 border-t-2 border-gray-400 shrink-0">
         Schedule
       </h2>
     </div>

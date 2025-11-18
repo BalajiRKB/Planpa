@@ -46,9 +46,9 @@ export default function Home() {
   return (
     <ProtectedRoute>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="min-h-screen p-4 md:p-6">
+        <div className="h-screen flex flex-col p-4 md:p-6 overflow-hidden">
           {/* Header */}
-          <header className="mb-6 flex justify-end items-center">
+          <header className="mb-4 flex justify-end items-center shrink-0">
             <div className="flex items-center gap-4">
               {authUser && (
                 <div className="text-right">
@@ -65,19 +65,19 @@ export default function Home() {
             </div>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto flex-1 overflow-hidden w-full">
             {/* Left Column: Schedule */}
-            <div className="lg:col-span-1 order-1">
+            <div className="lg:col-span-1 order-1 h-full">
               <ScheduleView />
             </div>
 
             {/* Middle Column: Task Dump */}
-            <div className="lg:col-span-1 order-2">
+            <div className="lg:col-span-1 order-2 h-full">
               <TaskDump />
             </div>
 
             {/* Right Column: Timer, Dashboard & Priority Matrix */}
-            <div className="lg:col-span-1 space-y-4 order-3">
+            <div className="lg:col-span-1 flex flex-col gap-4 order-3 h-full overflow-hidden">
               <Timer />
               <Dashboard />
               <PriorityMatrix />

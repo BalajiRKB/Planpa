@@ -31,11 +31,11 @@ export default function PriorityMatrix() {
   );
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600">
-      <h2 className="text-lg font-bold text-gray-900 mb-3 text-center pb-2 border-b-2 border-gray-400">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 flex-1 min-h-0 flex flex-col overflow-hidden">
+      <h2 className="text-lg font-bold text-gray-900 mb-3 text-center pb-2 border-b-2 border-gray-400 shrink-0">
         Priority Matrix
       </h2>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2 flex-1 min-h-0 overflow-y-auto">
         <QuadrantBox title="P1: Critical" tasks={urgentImportant} color="bg-red-400" />
         <QuadrantBox title="P2: Important" tasks={notUrgentImportant} color="bg-orange-400" />
         <QuadrantBox title="P3: Medium" tasks={urgentNotImportant} color="bg-yellow-400" />
