@@ -82,7 +82,7 @@ export default function TaskDump() {
 
       {/* Modal Overlay */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowModal(false)}>
+        <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowModal(false)}>
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             {/* Priority Buttons on the Right */}
             <div className="absolute -right-24 top-1/2 -translate-y-1/2 flex flex-col gap-3">
