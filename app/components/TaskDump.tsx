@@ -36,18 +36,18 @@ export default function TaskDump() {
   const unassignedTasks = tasks.filter(task => !task.assignedBlockId);
 
   return (
-    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 border-4 border-gray-600 h-full flex flex-col">
-      <div className="flex justify-end items-center mb-4 shrink-0">
+    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
+      <div className="flex justify-end items-center mb-3 shrink-0">
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-[#6eb5b5] hover:bg-[#5a9a9a] text-white px-4 py-2 rounded-xl transition font-semibold text-sm"
+          className="bg-[#6eb5b5] hover:bg-[#5a9a9a] text-white px-3 py-1.5 rounded-xl transition font-semibold text-sm"
         >
           + Add Task
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="mb-4 p-4 bg-[#e8c7c7] rounded-xl border-2 border-gray-600 shrink-0">
+        <form onSubmit={handleSubmit} className="mb-3 p-3 bg-[#e8c7c7] rounded-xl border-2 border-gray-600 shrink-0">
           <input
             type="text"
             placeholder="Task title"
@@ -123,7 +123,7 @@ export default function TaskDump() {
           ))
         )}
       </div>
-      <h2 className="text-xl font-bold text-gray-900 text-center pt-4 mt-4 border-t-2 border-gray-600 shrink-0">
+      <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-gray-600 shrink-0">
         Task Dump
       </h2>
     </div>

@@ -46,41 +46,42 @@ export default function Home() {
   return (
     <ProtectedRoute>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="h-screen flex flex-col p-4 md:p-6 overflow-hidden">
+        <div className="h-screen flex flex-col p-3 overflow-hidden">
           {/* Header */}
-          <header className="mb-4 flex justify-end items-center shrink-0">
+          <header className="mb-3 flex justify-end items-center shrink-0 h-12">
             <div className="flex items-center gap-4">
               {authUser && (
                 <div className="text-right">
-                  <p className="text-sm text-gray-700 opacity-80">Welcome back,</p>
-                  <p className="font-semibold text-gray-900">{authUser.name}</p>
+                  <p className="text-xs text-gray-700 opacity-80">Welcome back,</p>
+                  <p className="text-sm font-semibold text-gray-900">{authUser.name}</p>
                 </div>
               )}
               <button
                 onClick={logout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition shadow-md"
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg transition shadow-md text-sm"
               >
                 Logout
               </button>
             </div>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto flex-1 overflow-hidden w-full">
+          <div className="grid grid-cols-3 gap-3 flex-1 overflow-hidden" style={{ height: 'calc(100vh - 80px)' }}>
             {/* Left Column: Schedule */}
-            <div className="lg:col-span-1 order-1 h-full">
+            <div className="h-full overflow-hidden">
               <ScheduleView />
             </div>
 
             {/* Middle Column: Task Dump */}
-            <div className="lg:col-span-1 order-2 h-full">
+            <div className="h-full overflow-hidden">
               <TaskDump />
             </div>
 
             {/* Right Column: Timer, Dashboard & Priority Matrix */}
-            <div className="lg:col-span-1 flex flex-col gap-4 order-3 h-full overflow-hidden">
+            <div className="h-full flex flex-col gap-3 overflow-hidden">
               <Timer />
-              <Dashboard />
-              <PriorityMatrix />
+              <div className="flex-1 overflow-hidden">
+                <Dashboard />
+              </div>
             </div>
           </div>
 

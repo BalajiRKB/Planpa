@@ -29,13 +29,13 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 h-full flex flex-col">
-      <div className="space-y-2 flex-1 overflow-y-auto pr-2 mb-4">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
+      <div className="space-y-2 flex-1 overflow-y-auto pr-1 mb-3">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
         ))}
       </div>
-      <h2 className="text-xl font-bold text-gray-800 text-center pt-3 border-t-2 border-gray-400 shrink-0">
+      <h2 className="text-lg font-bold text-gray-800 text-center pt-2 border-t-2 border-gray-400 shrink-0">
         Schedule
       </h2>
     </div>
@@ -59,10 +59,10 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
   return (
     <div
       ref={setNodeRef}
-      className={`p-3 border-3 border-gray-700 rounded-xl ${blockColor} ${hoverColor} transition min-h-[60px] flex flex-col justify-center`}
+      className={`p-2 border-3 border-gray-700 rounded-xl ${blockColor} ${hoverColor} transition min-h-[50px] flex flex-col justify-center`}
     >
-      <div className="flex justify-between items-center mb-1">
-        <span className="font-semibold text-gray-900 text-sm">
+      <div className="flex justify-between items-center mb-0.5">
+        <span className="font-semibold text-gray-900 text-xs">
           {formatTime(block.startTime)} - {formatTime(block.endTime)}
         </span>
         {block.isCompleted && (
@@ -71,7 +71,7 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
       </div>
       
       {assignedTasks.length > 0 ? (
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {assignedTasks.map((task) => (
             <div key={task.taskId} className="text-xs text-gray-800 font-medium">
               {task.title}

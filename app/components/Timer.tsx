@@ -42,9 +42,9 @@ export default function Timer() {
 
   if (!activeTimer) {
     return (
-      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-8 text-center border-4 border-gray-600 flex items-center justify-center shrink-0" style={{ height: '250px' }}>
+      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-4 border-gray-600 flex items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
         <div>
-          <div className="text-8xl font-bold text-gray-900 mb-4 font-mono">5:00</div>
+          <div className="text-7xl font-bold text-gray-900 mb-2 font-mono">5:00</div>
           <p className="text-gray-700 text-sm">No active timer</p>
         </div>
       </div>
@@ -52,9 +52,9 @@ export default function Timer() {
   }
 
   return (
-    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-8 text-center border-4 border-gray-600 flex flex-col items-center justify-center shrink-0" style={{ height: '250px' }}>
-      <div className="mb-4">
-        <div className="text-8xl font-bold text-gray-900 font-mono tracking-tight">
+    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-4 border-gray-600 flex flex-col items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
+      <div className="mb-2">
+        <div className="text-7xl font-bold text-gray-900 font-mono tracking-tight">
           {formatTime(timeLeft)}
         </div>
         <p className="text-gray-800 text-sm mt-2 font-medium">
@@ -63,7 +63,7 @@ export default function Timer() {
       </div>
       <button
         onClick={stopTimer}
-        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl transition font-semibold mt-4"
+        className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-xl transition font-semibold text-sm mt-2"
       >
         Stop Timer
       </button>
