@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '@/src/context/AppContext';
 import { Priority, TaskStatus } from '@/src/types';
 import { getPriorityColor, getStatusColor } from '@/src/utils/helpers';
@@ -9,7 +9,8 @@ import { CSS } from '@dnd-kit/utilities';
 
 export default function TaskDump() {
   const { tasks, addTask, deleteTask, updateTask } = useApp();
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPriority, setSelectedPriority] = useState<Priority>('P3');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -19,9 +20,26 @@ export default function TaskDump() {
     category: 'General',
   });
 
+  // Keyboard shortcut to open modal (Ctrl+N or Cmd+N)
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        e.preventDefault();
+        setShowModal(true);
+      }
+      // ESC to close
+      if (e.key === 'Escape' && showModal) {
+        setShowModal(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showModal]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addTask(formData);
+    addTask({ ...formData, priority: selectedPriority });
     setFormData({
       title: '',
       description: '',
@@ -30,103 +48,117 @@ export default function TaskDump() {
       status: 'Todo' as TaskStatus,
       category: 'General',
     });
-    setShowForm(false);
+    setSelectedPriority('P3');
+    setShowModal(false);
   };
 
   const unassignedTasks = tasks.filter(task => !task.assignedBlockId);
 
   return (
-    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
-      <div className="flex justify-end items-center mb-3 shrink-0">
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="bg-[#6eb5b5] hover:bg-[#5a9a9a] text-white px-3 py-1.5 rounded-xl transition font-semibold text-sm"
-        >
-          + Add Task
-        </button>
-      </div>
-
-      {showForm && (
-        <form onSubmit={handleSubmit} className="mb-3 p-3 bg-[#e8c7c7] rounded-xl border-2 border-gray-600 shrink-0">
-          <input
-            type="text"
-            placeholder="Task title"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full mb-2 p-2 border-2 border-gray-600 rounded-lg bg-white"
-            required
-          />
-          <textarea
-            placeholder="Description"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full mb-2 p-2 border-2 border-gray-600 rounded-lg bg-white"
-            rows={3}
-          />
-          <div className="grid grid-cols-3 gap-2 mb-2">
-            <select
-              value={formData.priority}
-              onChange={(e) => setFormData({ ...formData, priority: e.target.value as Priority })}
-              className="p-2 border-2 border-gray-600 rounded-lg bg-white"
-            >
-              <option value="P1">P1 (Urgent)</option>
-              <option value="P2">P2 (High)</option>
-              <option value="P3">P3 (Medium)</option>
-              <option value="P4">P4 (Low)</option>
-            </select>
-            <input
-              type="number"
-              placeholder="Duration (min)"
-              value={formData.estimatedDuration}
-              onChange={(e) => setFormData({ ...formData, estimatedDuration: parseInt(e.target.value) })}
-              className="p-2 border-2 border-gray-600 rounded-lg bg-white"
-              min="5"
-              step="5"
-            />
-            <input
-              type="text"
-              placeholder="Category"
-              value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="p-2 border-2 border-gray-600 rounded-lg bg-white"
-            />
-          </div>
-          <div className="flex gap-2">
-            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 font-semibold">
-              Add
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 font-semibold"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      )}
-
-      <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto">
-        {unassignedTasks.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="mb-4">
-              <svg className="w-20 h-20 mx-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
+    <>
+      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-4 border-gray-600 h-full flex flex-col">
+        <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto">
+          {unassignedTasks.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="mb-4">
+                <svg className="w-20 h-20 mx-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+              <p className="text-gray-700 font-medium text-sm">Your task dump is empty...</p>
+              <p className="text-gray-600 text-xs mt-1">press Ctrl+N to add task</p>
             </div>
-            <p className="text-gray-700 font-medium text-sm">Your task dump is empty...</p>
-            <p className="text-gray-600 text-xs mt-1">press + to add task</p>
-          </div>
-        ) : (
-          unassignedTasks.map((task) => (
-            <TaskCard key={task.taskId} task={task} onDelete={deleteTask} onUpdate={updateTask} />
-          ))
-        )}
+          ) : (
+            unassignedTasks.map((task) => (
+              <TaskCard key={task.taskId} task={task} onDelete={deleteTask} onUpdate={updateTask} />
+            ))
+          )}
+        </div>
+        <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-gray-600 shrink-0">
+          Task Dump
+        </h2>
       </div>
-      <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-gray-600 shrink-0">
-        Task Dump
-      </h2>
-    </div>
+
+      {/* Modal Overlay */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowModal(false)}>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            {/* Priority Buttons on the Right */}
+            <div className="absolute -right-24 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedPriority('P1')}
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                  selectedPriority === 'P1' ? 'bg-red-600 ring-4 ring-red-300' : 'bg-red-600 hover:bg-red-700'
+                }`}
+              >
+                <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedPriority('P2')}
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                  selectedPriority === 'P2' ? 'bg-green-600 ring-4 ring-green-300' : 'bg-green-600 hover:bg-green-700'
+                }`}
+              >
+                <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedPriority('P3')}
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                  selectedPriority === 'P3' ? 'bg-yellow-400 ring-4 ring-yellow-200' : 'bg-yellow-400 hover:bg-yellow-500'
+                }`}
+              >
+                <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedPriority('P4')}
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                  selectedPriority === 'P4' ? 'bg-blue-600 ring-4 ring-blue-300' : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Main Modal */}
+            <div className="bg-[#d4a5a5] rounded-3xl shadow-2xl w-[500px] border-4 border-gray-700">
+              <form onSubmit={handleSubmit} className="p-8">
+                <h2 className="text-5xl font-bold text-center text-gray-900 mb-8">New Task</h2>
+                
+                <input
+                  type="text"
+                  placeholder="Task"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full mb-4 p-4 border-3 border-gray-700 rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+                  required
+                  autoFocus
+                />
+                
+                <textarea
+                  placeholder="Task Description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full p-4 border-3 border-gray-700 rounded-2xl bg-[#6eb5b5] text-gray-900 placeholder-gray-600 font-medium text-lg focus:outline-none focus:ring-2 focus:ring-gray-800 resize-none"
+                  rows={4}
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
