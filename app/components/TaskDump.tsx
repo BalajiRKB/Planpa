@@ -20,10 +20,11 @@ export default function TaskDump() {
     category: 'General',
   });
 
-  // Keyboard shortcut to open modal (Ctrl+N or Cmd+N)
+  // Keyboard shortcut to open modal (Alt+N)
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+      // Open modal with Alt+N
+      if (e.altKey && e.key.toLowerCase() === 'n' && !showModal) {
         e.preventDefault();
         setShowModal(true);
       }
@@ -66,7 +67,7 @@ export default function TaskDump() {
                 </svg>
               </div>
               <p className="text-gray-700 font-medium text-sm">Your task dump is empty...</p>
-              <p className="text-gray-600 text-xs mt-1">press Ctrl+N to add task</p>
+              <p className="text-gray-600 text-xs mt-1">press Alt+N to add task</p>
             </div>
           ) : (
             unassignedTasks.map((task) => (
