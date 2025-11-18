@@ -72,7 +72,7 @@ export default function TaskDump() {
 
   return (
     <>
-      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
+      <div className="bg-[#CDB4B4] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
         <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto">
           {unassignedTasks.length === 0 ? (
             <div className="text-center py-12">

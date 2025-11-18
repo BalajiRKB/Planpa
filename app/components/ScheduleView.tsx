@@ -15,7 +15,7 @@ export default function ScheduleView() {
 
   if (!schedule) {
     return (
-      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-2 border-black">
+      <div className="bg-[#CDB4B4] rounded-2xl shadow-lg p-6 text-center border-2 border-black">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Schedule</h2>
         <p className="text-gray-600 mb-4">No schedule created yet for today.</p>
         <button
@@ -29,7 +29,7 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
+    <div className="bg-[#CDB4B4] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
       <div className="space-y-2 flex-1 overflow-y-auto pr-1 mb-3">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
