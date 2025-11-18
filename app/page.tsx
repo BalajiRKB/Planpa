@@ -48,23 +48,7 @@ export default function Home() {
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <div className="min-h-screen p-4 md:p-6">
           {/* Header */}
-          <header className="mb-6 flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="bg-black text-white px-4 py-2 font-mono text-xl font-bold tracking-wider" style={{
-                background: 'black',
-                color: '#ff0000',
-                textShadow: '0 0 10px rgba(255,0,0,0.5)',
-                fontFamily: 'monospace',
-                letterSpacing: '0.2em'
-              }}>
-                <span style={{color: '#ff0000'}}>P</span>
-                <span style={{color: '#00ff00'}}>L</span>
-                <span style={{color: '#0066ff'}}>A</span>
-                <span style={{color: '#ffff00'}}>N</span>
-                <span style={{color: '#ff00ff'}}>P</span>
-                <span style={{color: '#00ffff'}}>A</span>
-              </div>
-            </div>
+          <header className="mb-6 flex justify-end items-center">
             <div className="flex items-center gap-4">
               {authUser && (
                 <div className="text-right">
@@ -108,6 +92,17 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </button>
+          </div>
+
+          {/* PLANPA Logo */}
+          <div className="fixed bottom-6 right-6">
+            <div className="bg-black px-6 py-3 rounded-xl shadow-2xl">
+              <img 
+                src="/Planpa-Logo.png" 
+                alt="PlanPA Logo" 
+                className="h-8 w-auto object-contain"
+              />
+            </div>
           </div>
         </div>
       </DndContext>

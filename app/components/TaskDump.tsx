@@ -37,8 +37,7 @@ export default function TaskDump() {
 
   return (
     <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 border-4 border-gray-600 h-fit min-h-[400px] flex flex-col">
-      <div className="flex justify-between items-center mb-4 pb-3 border-b-2 border-gray-500">
-        <h2 className="text-xl font-bold text-gray-900">Task Dump</h2>
+      <div className="flex justify-end items-center mb-4">
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-[#6eb5b5] hover:bg-[#5a9a9a] text-white px-4 py-2 rounded-xl transition font-semibold text-sm"
@@ -124,6 +123,9 @@ export default function TaskDump() {
           ))
         )}
       </div>
+      <h2 className="text-xl font-bold text-gray-900 text-center pt-4 mt-4 border-t-2 border-gray-600">
+        Task Dump
+      </h2>
     </div>
   );
 }
