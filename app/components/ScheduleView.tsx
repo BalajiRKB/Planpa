@@ -15,7 +15,7 @@ export default function ScheduleView() {
 
   if (!schedule) {
     return (
-      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-4 border-black">
+      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-2 border-black">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Schedule</h2>
         <p className="text-gray-600 mb-4">No schedule created yet for today.</p>
         <button
@@ -29,7 +29,7 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-black h-full flex flex-col">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
       <div className="space-y-2 flex-1 overflow-y-auto pr-1 mb-3">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
@@ -59,7 +59,7 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
   return (
     <div
       ref={setNodeRef}
-      className={`p-2 border-3 border-black rounded-xl ${blockColor} ${hoverColor} transition min-h-[50px] flex flex-col justify-center`}
+      className={`p-2 border-2 border-black rounded-xl ${blockColor} ${hoverColor} transition min-h-[50px] flex flex-col justify-center`}
     >
       <div className="flex justify-between items-center mb-0.5">
         <span className="font-semibold text-gray-900 text-xs">

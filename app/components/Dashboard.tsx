@@ -20,7 +20,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-4 border-black h-full flex flex-col overflow-hidden">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col overflow-hidden">
       <h2 className="text-base font-bold text-gray-900 mb-2 text-center pb-2 border-b-2 border-black shrink-0">
         Stats
       </h2>

@@ -42,7 +42,7 @@ export default function Timer() {
 
   if (!activeTimer) {
     return (
-      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-4 border-black flex items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
+      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-2 border-black flex items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
         <div>
           <div className="text-7xl font-bold text-gray-900 mb-2 font-mono">5:00</div>
           <p className="text-gray-700 text-sm">No active timer</p>
@@ -52,7 +52,7 @@ export default function Timer() {
   }
 
   return (
-    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-4 border-black flex flex-col items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
+    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-6 text-center border-2 border-black flex flex-col items-center justify-center shrink-0" style={{ minHeight: '200px', maxHeight: '250px' }}>
       <div className="mb-2">
         <div className="text-7xl font-bold text-gray-900 font-mono tracking-tight">
           {formatTime(timeLeft)}
