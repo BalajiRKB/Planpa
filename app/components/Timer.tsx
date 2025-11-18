@@ -42,27 +42,28 @@ export default function Timer() {
 
   if (!activeTimer) {
     return (
-      <div className="bg-white rounded-lg shadow p-6 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Focus Timer</h2>
-        <p className="text-gray-600">No active timer. Start a work block from your schedule!</p>
+      <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-8 text-center border-4 border-gray-600 min-h-[280px] flex items-center justify-center">
+        <div>
+          <div className="text-8xl font-bold text-gray-900 mb-4 font-mono">5:00</div>
+          <p className="text-gray-700 text-sm">No active timer</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Focus Timer</h2>
+    <div className="bg-[#d4a5a5] rounded-2xl shadow-lg p-8 text-center border-4 border-gray-600 min-h-[280px] flex flex-col items-center justify-center">
       <div className="mb-4">
-        <div className="text-6xl font-bold text-blue-600 mb-2">
+        <div className="text-8xl font-bold text-gray-900 font-mono tracking-tight">
           {formatTime(timeLeft)}
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-800 text-sm mt-2 font-medium">
           {currentBlock?.blockType === 'Work' ? '🎯 Work Session' : '☕ Break Time'}
         </p>
       </div>
       <button
         onClick={stopTimer}
-        className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg transition"
+        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl transition font-semibold mt-4"
       >
         Stop Timer
       </button>

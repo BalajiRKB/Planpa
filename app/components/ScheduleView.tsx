@@ -15,12 +15,12 @@ export default function ScheduleView() {
 
   if (!schedule) {
     return (
-      <div className="bg-white rounded-lg shadow p-6 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Schedule</h2>
+      <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-6 text-center border-4 border-gray-600">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Schedule</h2>
         <p className="text-gray-600 mb-4">No schedule created yet for today.</p>
         <button
           onClick={handleCreateSchedule}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition"
+          className="bg-[#6eb5b5] hover:bg-[#5a9a9a] text-white px-6 py-3 rounded-xl transition font-semibold"
         >
           Create Today's Schedule
         </button>
@@ -29,9 +29,11 @@ export default function ScheduleView() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Schedule</h2>
-      <div className="space-y-2 max-h-[600px] overflow-y-auto">
+    <div className="bg-[#f0e5e5] rounded-2xl shadow-lg p-4 border-4 border-gray-600 h-fit">
+      <h2 className="text-xl font-bold text-gray-800 mb-4 text-center pb-2 border-b-2 border-gray-400">
+        Schedule
+      </h2>
+      <div className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto pr-2">
         {timeBlocks.map((block) => (
           <TimeBlockCard key={block.blockId} block={block} tasks={tasks} />
         ))}
@@ -49,38 +51,35 @@ function TimeBlockCard({ block, tasks }: { block: TimeBlock; tasks: any[] }) {
 
   const assignedTasks = tasks.filter((task) => block.assignedTasks.includes(task.taskId));
 
-  const blockColor = block.blockType === 'Work' ? 'bg-blue-50 border-blue-200' : 'bg-green-50 border-green-200';
-  const hoverColor = isOver ? 'ring-2 ring-blue-400' : '';
+  const blockColor = block.blockType === 'Work' 
+    ? 'bg-[#6eb5b5] border-gray-700' 
+    : 'bg-[#d4a5a5] border-gray-700';
+  const hoverColor = isOver ? 'ring-2 ring-blue-500' : '';
 
   return (
     <div
       ref={setNodeRef}
-      className={`p-3 border rounded-lg ${blockColor} ${hoverColor} transition`}
+      className={`p-3 border-3 border-gray-700 rounded-xl ${blockColor} ${hoverColor} transition min-h-[60px] flex flex-col justify-center`}
     >
-      <div className="flex justify-between items-center mb-2">
-        <div>
-          <span className="font-semibold text-gray-800">
-            {formatTime(block.startTime)} - {formatTime(block.endTime)}
-          </span>
-          <span className="ml-2 text-sm text-gray-600">
-            ({block.duration} min - {block.blockType})
-          </span>
-        </div>
+      <div className="flex justify-between items-center mb-1">
+        <span className="font-semibold text-gray-900 text-sm">
+          {formatTime(block.startTime)} - {formatTime(block.endTime)}
+        </span>
         {block.isCompleted && (
-          <span className="text-green-600 font-semibold">✓ Completed</span>
+          <span className="text-green-700 font-bold text-xs">✓</span>
         )}
       </div>
       
       {assignedTasks.length > 0 ? (
         <div className="space-y-1">
           {assignedTasks.map((task) => (
-            <div key={task.taskId} className="text-sm bg-white p-2 rounded border">
+            <div key={task.taskId} className="text-xs text-gray-800 font-medium">
               {task.title}
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-gray-500 italic">Drop a task here</p>
+        <p className="text-xs text-gray-700 italic">Drop a Task here</p>
       )}
     </div>
   );
