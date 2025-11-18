@@ -40,6 +40,7 @@ export interface TimeBlock {
   blockType: BlockType;
   assignedTasks: string[]; // task IDs
   isCompleted: boolean;
+  isMissed?: boolean;
   createdAt: Date;
 }
 

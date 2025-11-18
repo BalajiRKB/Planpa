@@ -15,6 +15,8 @@ interface AppContextType extends AppState {
   startTimer: (blockId: string, duration: number) => void;
   stopTimer: () => void;
   completeBlock: (blockId: string) => void;
+  uncompleteBlock: (blockId: string) => void;
+  markBlockAsMissed: (blockId: string) => void;
   setUser: (user: User) => void;
 }
 
@@ -98,12 +100,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
     setSchedule(newSchedule);
     
-    // Auto-generate 8 work blocks (40 min) + 8 break blocks (5 min) for a full day
+    // Auto-generate work blocks (40 min) + break blocks (5 min) from 8 AM to 8 PM
     const blocks: TimeBlock[] = [];
     let currentTime = new Date(date);
-    currentTime.setHours(9, 0, 0, 0); // Start at 9 AM
+    currentTime.setHours(8, 0, 0, 0); // Start at 8 AM
     
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 16; i++) {
       // Work block
       const workBlock: TimeBlock = {
         blockId: generateId(),
@@ -179,6 +181,28 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [timeBlocks]);
 
+  const uncompleteBlock = useCallback((blockId: string) => {
+    setTimeBlocks(prev => prev.map(block =>
+      block.blockId === blockId ? { ...block, isCompleted: false, isMissed: false } : block
+    ));
+    
+    // Mark all tasks in this block as pending
+    const block = timeBlocks.find(b => b.blockId === blockId);
+    if (block) {
+      setTasks(prev => prev.map(task =>
+        block.assignedTasks.includes(task.taskId)
+          ? { ...task, status: 'Pending' as TaskStatus, completedAt: null }
+          : task
+      ));
+    }
+  }, [timeBlocks]);
+
+  const markBlockAsMissed = useCallback((blockId: string) => {
+    setTimeBlocks(prev => prev.map(block =>
+      block.blockId === blockId ? { ...block, isMissed: true, isCompleted: false } : block
+    ));
+  }, []);
+
   const value: AppContextType = {
     user,
     tasks,
@@ -195,6 +219,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     startTimer,
     stopTimer,
     completeBlock,
+    uncompleteBlock,
+    markBlockAsMissed,
     setUser,
   };
 

@@ -10,7 +10,7 @@ dayjs.extend(timezone);
 export const generateId = (): string => uuidv4();
 
 export const formatTime = (date: Date | string): string => {
-  return dayjs(date).format('HH:mm');
+  return dayjs(date).format('h:mm A');
 };
 
 export const formatDate = (date: Date | string): string => {

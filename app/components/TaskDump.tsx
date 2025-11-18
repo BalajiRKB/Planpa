@@ -5,10 +5,14 @@ import { useApp } from '@/src/context/AppContext';
 import { Priority, TaskStatus } from '@/src/types';
 import { getPriorityColor, getStatusColor } from '@/src/utils/helpers';
 import { useSortable } from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 
 export default function TaskDump() {
   const { tasks, addTask, deleteTask, updateTask } = useApp();
+  const { setNodeRef } = useDroppable({
+    id: 'task-dump',
+  });
   const [showModal, setShowModal] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState<Priority>('P3');
   const [formData, setFormData] = useState({
@@ -38,7 +42,7 @@ export default function TaskDump() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [showModal]);
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = (e?: React.FormEvent, priorityOverride?: Priority) => {
     if (e) e.preventDefault();
     
     // Check if title is filled
@@ -47,7 +51,8 @@ export default function TaskDump() {
       return;
     }
     
-    addTask({ ...formData, priority: selectedPriority });
+    const finalPriority = priorityOverride || selectedPriority;
+    addTask({ ...formData, priority: finalPriority });
     setFormData({
       title: '',
       description: '',
@@ -62,9 +67,9 @@ export default function TaskDump() {
 
   const handlePriorityClick = (priority: Priority) => {
     setSelectedPriority(priority);
-    // Auto-submit if title is filled
+    // Auto-submit if title is filled, passing priority directly
     if (formData.title.trim()) {
-      handleSubmit();
+      handleSubmit(undefined, priority);
     }
   };
 
@@ -72,17 +77,19 @@ export default function TaskDump() {
 
   return (
     <>
-      <div className="bg-[#CDB4B4] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
-        <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto">
+      <div ref={setNodeRef} className="bg-[#CDB4B4] rounded-2xl shadow-lg p-3 border-2 border-black h-full flex flex-col">
+        <div className="space-y-2 flex-1 flex flex-col justify-center overflow-y-auto scrollbar-thin">
           {unassignedTasks.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 animate-fade-in">
               <div className="mb-4">
-                <svg className="w-20 h-20 mx-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-20 h-20 mx-auto text-gray-600 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
               </div>
-              <p className="text-gray-700 font-medium text-sm">Your task dump is empty...</p>
-              <p className="text-gray-600 text-xs mt-1">press Alt+N to add task</p>
+              <p className="text-gray-700 font-semibold text-sm">Your task dump is empty! 📝</p>
+              <p className="text-gray-600 text-xs mt-2 bg-gray-200 px-3 py-1 rounded-full inline-block">
+                Press <kbd className="font-bold">Alt+N</kbd> to add a task
+              </p>
             </div>
           ) : (
             unassignedTasks.map((task, index) => (
@@ -90,23 +97,24 @@ export default function TaskDump() {
             ))
           )}
         </div>
-        <h2 className="text-lg font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-black shrink-0">
-          Task Dump
+        <h2 className="text-base font-bold text-gray-900 text-center pt-2 mt-3 border-t-2 border-black shrink-0">
+          📥 Task Dump
         </h2>
       </div>
 
       {/* Modal Overlay */}
       {showModal && (
-        <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowModal(false)}>
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in" onClick={() => setShowModal(false)}>
+          <div className="relative animate-slide-up" onClick={(e) => e.stopPropagation()}>
             {/* Priority Buttons on the Right */}
             <div className="absolute -right-24 top-1/2 -translate-y-1/2 flex flex-col gap-3">
               <button
                 type="button"
                 onClick={() => handlePriorityClick('P1')}
-                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition-all shadow-lg hover:scale-105 active:scale-95 ${
                   selectedPriority === 'P1' ? 'bg-red-600 ring-4 ring-red-300' : 'bg-red-600 hover:bg-red-700'
                 }`}
+                title="High Priority"
               >
                 <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
@@ -115,9 +123,10 @@ export default function TaskDump() {
               <button
                 type="button"
                 onClick={() => handlePriorityClick('P2')}
-                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg hover:scale-105 active:scale-95 ${
                   selectedPriority === 'P2' ? 'bg-green-600 ring-4 ring-green-300' : 'bg-green-600 hover:bg-green-700'
                 }`}
+                title="Medium Priority"
               >
                 <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
@@ -126,9 +135,10 @@ export default function TaskDump() {
               <button
                 type="button"
                 onClick={() => handlePriorityClick('P3')}
-                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg hover:scale-105 active:scale-95 ${
                   selectedPriority === 'P3' ? 'bg-yellow-400 ring-4 ring-yellow-200' : 'bg-yellow-400 hover:bg-yellow-500'
                 }`}
+                title="Low Priority"
               >
                 <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
@@ -137,9 +147,10 @@ export default function TaskDump() {
               <button
                 type="button"
                 onClick={() => handlePriorityClick('P4')}
-                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg ${
+                className={`w-20 h-14 rounded-xl flex items-center justify-center transition shadow-lg hover:scale-105 active:scale-95 ${
                   selectedPriority === 'P4' ? 'bg-blue-600 ring-4 ring-blue-300' : 'bg-blue-600 hover:bg-blue-700'
                 }`}
+                title="Lowest Priority"
               >
                 <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14 9V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H4l8 11 8-11h-6z" />
